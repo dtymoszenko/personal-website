@@ -185,46 +185,50 @@ section {
 
 /* Projects */
 
-.project-grid {
+.project-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
+  gap: 2.5rem;
+  align-items: center;
+  padding: 2.5rem 0;
 }
 
-.project-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 1.5rem;
+.project-row + .project-row {
+  border-top: 1px solid var(--border);
+}
+
+.project-row.row-reverse {
+  direction: rtl;
+}
+
+.project-row.row-reverse > * {
+  direction: ltr;
+}
+
+.project-text {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  transition: box-shadow 0.2s, transform 0.2s, background 0.3s, border-color 0.3s;
 }
 
-.project-card:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  transform: translateY(-2px);
+.project-text h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
 }
 
-.project-card h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-.project-card p {
-  font-size: 0.9rem;
+.project-text p {
+  font-size: 0.95rem;
   color: var(--text-muted);
-  flex-grow: 1;
+  line-height: 1.7;
 }
 
-.project-card .tags {
+.project-text .tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
 }
 
-.project-card .tag {
+.project-text .tag {
   background: var(--tag-bg);
   color: var(--tag-text);
   font-size: 0.75rem;
@@ -234,22 +238,47 @@ section {
   transition: background 0.3s, color 0.3s;
 }
 
-.project-card .card-links {
+.project-text .card-links {
   display: flex;
   gap: 1rem;
   margin-top: 0.25rem;
 }
 
-.project-card .card-links a {
+.project-text .card-links a {
   color: var(--accent);
   text-decoration: none;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 500;
   transition: color 0.2s;
 }
 
-.project-card .card-links a:hover {
+.project-text .card-links a:hover {
   color: var(--accent-hover);
+}
+
+.project-image {
+  background: var(--bg-card);
+  border: 2px dashed var(--border);
+  border-radius: 10px;
+  aspect-ratio: 16 / 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: border-color 0.3s, background 0.3s;
+}
+
+.project-image span {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 /* Technologies */
@@ -382,8 +411,17 @@ footer .footer-note {
     font-size: 2rem;
   }
 
-  .project-grid {
+  .project-row {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .project-row.row-reverse {
+    direction: ltr;
+  }
+
+  .project-image {
+    order: -1;
   }
 
   nav .nav-links {
