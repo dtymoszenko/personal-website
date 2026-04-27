@@ -68,10 +68,13 @@ nav .container {
 }
 
 nav .logo {
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: var(--text);
+  display: flex;
+  align-items: center;
   text-decoration: none;
+}
+
+nav .logo img {
+  border-radius: 4px;
 }
 
 nav .nav-right {
