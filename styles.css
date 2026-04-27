@@ -8,14 +8,32 @@
 
 :root {
   --bg: #FAFAF8;
+  --bg-alt: #F0EFE9;
   --bg-card: #FFFFFF;
   --text: #1A1A1A;
   --text-muted: #555555;
   --accent: #2563EB;
   --accent-hover: #1D4ED8;
+  --accent-warm: #D97706;
   --border: #E5E5E5;
   --tag-bg: #EFF6FF;
   --tag-text: #1E40AF;
+  --toggle-bg: #E5E5E5;
+}
+
+[data-theme="dark"] {
+  --bg: #1A1B1E;
+  --bg-alt: #222326;
+  --bg-card: #2A2B2F;
+  --text: #E4E4E7;
+  --text-muted: #A1A1AA;
+  --accent: #60A5FA;
+  --accent-hover: #93BBFD;
+  --accent-warm: #FBBF24;
+  --border: #3F3F46;
+  --tag-bg: #1E3A5F;
+  --tag-text: #93C5FD;
+  --toggle-bg: #3F3F46;
 }
 
 html {
@@ -28,6 +46,7 @@ body {
   color: var(--text);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  transition: background 0.3s, color 0.3s;
 }
 
 /* Nav */
@@ -38,6 +57,7 @@ nav {
   background: var(--bg);
   border-bottom: 1px solid var(--border);
   z-index: 10;
+  transition: background 0.3s, border-color 0.3s;
 }
 
 nav .container {
@@ -52,6 +72,12 @@ nav .logo {
   font-size: 1.1rem;
   color: var(--text);
   text-decoration: none;
+}
+
+nav .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
 }
 
 nav .nav-links {
@@ -71,6 +97,28 @@ nav .nav-links a:hover {
   color: var(--accent);
 }
 
+/* Theme toggle */
+
+.theme-toggle {
+  background: var(--toggle-bg);
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  padding: 0.35rem 0.7rem;
+  font-size: 1rem;
+  line-height: 1;
+  transition: background 0.3s;
+}
+
+.theme-toggle:hover {
+  opacity: 0.8;
+}
+
+[data-theme="dark"] .theme-icon-sun { display: inline; }
+[data-theme="dark"] .theme-icon-moon { display: none; }
+.theme-icon-sun { display: none; }
+.theme-icon-moon { display: inline; }
+
 /* Layout */
 
 .container {
@@ -83,8 +131,9 @@ section {
   padding: 4rem 0;
 }
 
-section + section {
-  border-top: 1px solid var(--border);
+.section-alt {
+  background: var(--bg-alt);
+  transition: background 0.3s;
 }
 
 .section-title {
@@ -93,11 +142,16 @@ section + section {
   margin-bottom: 2rem;
 }
 
+.section-title .title-accent {
+  color: var(--accent-warm);
+}
+
 /* Hero */
 
 .hero {
   padding: 5rem 0 4rem;
   text-align: center;
+  border-bottom: 1px solid var(--border);
 }
 
 .hero h1 {
@@ -145,11 +199,12 @@ section + section {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  transition: box-shadow 0.2s;
+  transition: box-shadow 0.2s, transform 0.2s, background 0.3s, border-color 0.3s;
 }
 
 .project-card:hover {
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
 }
 
 .project-card h3 {
@@ -176,6 +231,7 @@ section + section {
   padding: 0.2rem 0.6rem;
   border-radius: 4px;
   font-weight: 500;
+  transition: background 0.3s, color 0.3s;
 }
 
 .project-card .card-links {
@@ -194,6 +250,57 @@ section + section {
 
 .project-card .card-links a:hover {
   color: var(--accent-hover);
+}
+
+/* Technologies */
+
+.tech-category + .tech-category {
+  margin-top: 1.75rem;
+}
+
+.tech-category-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.tech-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.tech-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  min-width: 80px;
+  transition: border-color 0.2s, transform 0.2s, background 0.3s;
+}
+
+.tech-item:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.tech-item img {
+  width: 32px;
+  height: 32px;
+}
+
+.tech-item span {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text);
+  text-align: center;
 }
 
 /* About */
@@ -239,10 +346,33 @@ section + section {
 
 footer {
   text-align: center;
-  padding: 2rem 1.5rem;
+  padding: 2.5rem 1.5rem;
   color: var(--text-muted);
   font-size: 0.85rem;
   border-top: 1px solid var(--border);
+  transition: border-color 0.3s;
+}
+
+footer .footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+footer .footer-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+footer .footer-links a:hover {
+  color: var(--accent);
+}
+
+footer .footer-note {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
 }
 
 /* Mobile */
@@ -262,6 +392,10 @@ footer {
 
   nav .nav-links a {
     font-size: 0.85rem;
+  }
+
+  nav .nav-right {
+    gap: 1rem;
   }
 
   section {
