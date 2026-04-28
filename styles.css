@@ -342,6 +342,34 @@ section {
   line-height: 1.8;
 }
 
+.chess-card {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
+  margin-top: 1.25rem;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 600;
+  min-width: 60px;
+  transition: border-color 0.2s, background 0.3s, transform 0.2s;
+}
+
+.chess-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.chess-card img {
+  display: block;
+}
+
 /* Contact */
 
 .contact-content {

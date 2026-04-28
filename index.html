@@ -441,6 +441,10 @@
             problems. When I'm not coding, I love to play chess, workout, and
             play video games!
           </p>
+          <a href="https://www.chess.com/member/dtymoszenko" target="_blank" rel="noopener" class="chess-card">
+            <img src="https://www.chess.com/favicon.ico" alt="Chess.com" width="22" height="22" />
+            <span id="chess-rating">…</span>
+          </a>
         </div>
       </section>
 
@@ -491,6 +495,18 @@
           );
           localStorage.setItem("theme", isDark ? "light" : "dark");
         });
+
+      (async function () {
+        try {
+          const res = await fetch(
+            "https://api.chess.com/pub/player/dtymoszenko/stats",
+          );
+          if (!res.ok) return;
+          const data = await res.json();
+          const rating = data.chess_rapid?.last?.rating;
+          if (rating) document.getElementById("chess-rating").textContent = rating;
+        } catch (_) {}
+      })();
     </script>
   </body>
 </html>
