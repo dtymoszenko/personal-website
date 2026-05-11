@@ -166,6 +166,12 @@ section {
 .hero .tagline {
   font-size: 1.2rem;
   color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.hero .bio {
+  font-size: 1rem;
+  color: var(--text-muted);
   margin-bottom: 1.5rem;
 }
 
