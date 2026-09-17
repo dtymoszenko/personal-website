@@ -28,16 +28,17 @@ const isExternal =
 
 <style>
   .link {
-    color: var(--color-accent);
+    color: inherit;
     text-decoration: underline;
     text-decoration-thickness: 2px;
     text-underline-offset: 0.25em;
     text-decoration-color: var(--color-accent);
-    transition: color 0.15s ease-out;
+    transition: color 0.15s ease-out, text-decoration-color 0.15s ease-out;
   }
 
   .link:hover {
     color: var(--color-accent-hover);
+    text-decoration-color: var(--color-accent-hover);
   }
 
   .link:active {

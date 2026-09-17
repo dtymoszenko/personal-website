@@ -10,6 +10,7 @@ export const credentials: Credential[] = [
     name: 'University of Wisconsin-Madison',
     description: 'Bachelor of Science in Computer Science',
     type: 'Education',
+    url: 'https://www.wisc.edu',
   },
   {
     name: 'AWS Certified Cloud Practitioner',

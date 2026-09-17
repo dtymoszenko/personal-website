@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Navigation from '../components/Navigation.astro';
 import SocialLinks from '../components/SocialLinks.astro';
@@ -7,6 +8,7 @@ import CredentialPreview from '../components/CredentialPreview.astro';
 import Footer from '../components/Footer.astro';
 import { projects } from '../data/projects';
 import { credentials } from '../data/credentials';
+import headshot from '../assets/headshot.jpg';
 ---
 
 <BaseLayout
@@ -28,19 +30,13 @@ import { credentials } from '../data/credentials';
           <SocialLinks />
         </div>
         <div class="hero-avatar">
-          <svg viewBox="0 0 180 180" aria-hidden="true">
-            <circle cx="90" cy="90" r="90" fill="#2563EB" />
-            <text
-              x="90"
-              y="105"
-              text-anchor="middle"
-              font-family="'IBM Plex Sans', system-ui, sans-serif"
-              font-size="64"
-              font-weight="700"
-              fill="white"
-              letter-spacing="-1"
-            >DT</text>
-          </svg>
+          <Image
+            src={headshot}
+            alt="David Tymoszenko"
+            width={360}
+            height={360}
+            loading="eager"
+          />
         </div>
       </div>
     </section>
@@ -107,10 +103,11 @@ import { credentials } from '../data/credentials';
     flex-shrink: 0;
   }
 
-  .hero-avatar svg {
+  .hero-avatar img {
     width: 100%;
     height: 100%;
     border-radius: 50%;
+    object-fit: cover;
   }
 
   .projects {
