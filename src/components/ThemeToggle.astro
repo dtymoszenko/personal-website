@@ -3,7 +3,7 @@ import Sun from '../assets/icons/sun.svg';
 import Moon from '../assets/icons/moon.svg';
 ---
 
-<button class="theme-toggle" aria-label="Toggle theme">
+<button class="theme-toggle" aria-label="Switch to dark theme">
   <span class="icon icon-sun"><Sun /></span>
   <span class="icon icon-moon"><Moon /></span>
 </button>
@@ -14,7 +14,8 @@ import Moon from '../assets/icons/moon.svg';
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem;
+    width: 3rem;
+    height: 3rem;
     background: none;
     border: none;
     cursor: pointer;
@@ -35,8 +36,8 @@ import Moon from '../assets/icons/moon.svg';
   }
 
   .icon :global(svg) {
-    width: 1.35rem;
-    height: 1.35rem;
+    width: 2rem;
+    height: 2rem;
   }
 
   .icon-sun {
@@ -57,27 +58,34 @@ import Moon from '../assets/icons/moon.svg';
 </style>
 
 <script>
-  const toggle = document.querySelector('.theme-toggle');
+  const toggle = document.querySelector<HTMLButtonElement>('.theme-toggle');
+
+  function updateAriaLabel() {
+    if (!toggle) return;
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    toggle.setAttribute(
+      'aria-label',
+      isDark ? 'Switch to light theme' : 'Switch to dark theme'
+    );
+  }
+
+  updateAriaLabel();
 
   toggle?.addEventListener('click', () => {
-    const isDark =
-      document.documentElement.getAttribute('data-theme') === 'dark';
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     const next = isDark ? 'light' : 'dark';
 
-    if (typeof document.startViewTransition === 'function') {
-      document.startViewTransition(() => {
-        document.documentElement.setAttribute('data-theme', next);
-      });
-    } else {
-      document.documentElement.setAttribute('data-theme', next);
-    }
+    (window as any).__themeTransition(() => {
+      (window as any).__setTheme(next);
+    });
 
-    localStorage.setItem('theme', next);
+    updateAriaLabel();
   });
 
   window.addEventListener('storage', (e) => {
     if (e.key === 'theme' && e.newValue) {
       document.documentElement.setAttribute('data-theme', e.newValue);
+      updateAriaLabel();
     }
   });
 
@@ -89,6 +97,7 @@ import Moon from '../assets/icons/moon.svg';
           'data-theme',
           e.matches ? 'dark' : 'light'
         );
+        updateAriaLabel();
       }
     });
 </script>
