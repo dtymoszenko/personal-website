@@ -1,3 +1,9 @@
+import type { ImageMetadata } from 'astro';
+import betterbooksThumb from '../assets/projects/betterbooks.png';
+import easymoneyThumb from '../assets/projects/easymoney.svg';
+import chess960Thumb from '../assets/projects/chess960.svg';
+import sportsprojectThumb from '../assets/projects/sportsproject.svg';
+
 export interface Project {
   name: string;
   description: string;
@@ -5,6 +11,7 @@ export interface Project {
   stack: string[];
   sourceUrl?: string;
   liveUrl?: string;
+  thumbnail?: ImageMetadata;
 }
 
 export const projects: Project[] = [
@@ -16,6 +23,7 @@ export const projects: Project[] = [
     stack: ['Python', 'Flask', 'PostgreSQL'],
     sourceUrl: '#',
     liveUrl: '#',
+    thumbnail: betterbooksThumb,
   },
   {
     name: 'EasyMoney',
@@ -24,6 +32,7 @@ export const projects: Project[] = [
     type: 'Web App',
     stack: ['JavaScript', 'React'],
     sourceUrl: '#',
+    thumbnail: easymoneyThumb,
   },
   {
     name: 'Chess960',
@@ -33,6 +42,7 @@ export const projects: Project[] = [
     stack: ['Go', 'Docker'],
     sourceUrl: '#',
     liveUrl: '#',
+    thumbnail: chess960Thumb,
   },
   {
     name: 'SportsProject',
@@ -41,5 +51,6 @@ export const projects: Project[] = [
     type: 'Web App',
     stack: ['TypeScript', 'Node.js'],
     sourceUrl: '#',
+    thumbnail: sportsprojectThumb,
   },
 ];

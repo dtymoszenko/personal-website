@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import Link from './Link.astro';
 
 interface Props {
@@ -8,55 +10,106 @@ interface Props {
   stack: string[];
   sourceUrl?: string;
   liveUrl?: string;
+  thumbnail?: ImageMetadata;
 }
 
-const { name, description, type, stack, sourceUrl, liveUrl } = Astro.props;
+const { name, description, type, stack, sourceUrl, liveUrl, thumbnail } = Astro.props;
 const primaryUrl = liveUrl || sourceUrl || '#';
 ---
 
 <article class="project">
-  <h3>
-    <Link href={primaryUrl}>{name}</Link>
-  </h3>
-  <p>{description}</p>
-  <footer>
-    <span class="project-type">{type}</span>
-    <span class="separator">/</span>
-    <span class="project-stack">{stack.join(', ')}</span>
-    {sourceUrl && sourceUrl !== '#' && (
-      <Link href={sourceUrl} class="project-link">Source</Link>
-    )}
-    {liveUrl && liveUrl !== '#' && (
-      <Link href={liveUrl} class="project-link">Demo</Link>
-    )}
-  </footer>
+  {thumbnail && (
+    <div class="project-frame">
+      <Image
+        src={thumbnail}
+        alt={`${name} screenshot`}
+        width={400}
+        height={210}
+        loading="lazy"
+        decoding="async"
+        class="project-screenshot"
+      />
+    </div>
+  )}
+  <div class="project-content">
+    <h3>
+      <Link href={primaryUrl}>{name}</Link>
+    </h3>
+    <p>{description}</p>
+    <footer>
+      <span class="project-type">{type}</span>
+      <span class="separator">/</span>
+      <span class="project-stack">{stack.join(', ')}</span>
+      {sourceUrl && sourceUrl !== '#' && (
+        <Link href={sourceUrl} class="project-link">Source</Link>
+      )}
+      {liveUrl && liveUrl !== '#' && (
+        <Link href={liveUrl} class="project-link">Demo</Link>
+      )}
+    </footer>
+  </div>
 </article>
 
-<style>
+<style is:global>
   .project {
-    display: flex;
-    flex-direction: column;
-    gap: 0.625rem;
-    padding: 1.5rem 0;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    gap: 3rem;
+    padding: 2rem 0;
   }
 
   .project:not(:first-child) {
     border-top: 1px solid var(--color-border);
   }
 
-  h3 {
+  .project-frame {
+    flex-shrink: 0;
+    width: 200px;
+    height: 200px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  .project-screenshot {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    border-radius: 16px;
+    display: block !important;
+  }
+
+  [data-theme="dark"] .project-screenshot {
+    box-shadow: none;
+  }
+
+  [data-theme="dark"] .project-frame {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+
+  .project-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    min-width: 0;
+  }
+
+  .project h3 {
     font-size: var(--font-size-lg);
     font-weight: 600;
   }
 
-  p {
+  .project p {
     color: var(--color-text-muted);
     font-size: var(--font-size-base);
     line-height: 1.7;
     max-width: 65ch;
   }
 
-  footer {
+  .project footer {
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -82,5 +135,20 @@ const primaryUrl = liveUrl || sourceUrl || '#';
 
   .project-link {
     margin-left: 0.5rem;
+  }
+
+  @media (max-width: 639px) {
+    .project {
+      flex-direction: column !important;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+
+    .project-frame {
+      width: 100%;
+      max-width: 320px;
+      height: auto;
+      aspect-ratio: 1;
+    }
   }
 </style>
