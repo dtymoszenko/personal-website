@@ -3,8 +3,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Navigation from '../components/Navigation.astro';
 import SocialLinks from '../components/SocialLinks.astro';
 import ProjectPreview from '../components/ProjectPreview.astro';
+import CredentialPreview from '../components/CredentialPreview.astro';
 import Footer from '../components/Footer.astro';
 import { projects } from '../data/projects';
+import { credentials } from '../data/credentials';
 ---
 
 <BaseLayout
@@ -19,8 +21,9 @@ import { projects } from '../data/projects';
         <div class="hero-text">
           <h1>David Tymoszenko</h1>
           <p class="hero-description">
-            Full stack software engineer who loves building projects around the
-            things I'm passionate about.
+            Full-stack software engineer at LCS, working on
+            <a href="https://www.rentmanager.com" target="_blank" rel="noopener noreferrer">Rent Manager</a>.
+            I love building projects around the things I'm passionate about.
           </p>
           <SocialLinks />
         </div>
@@ -48,6 +51,17 @@ import { projects } from '../data/projects';
         {projects.map((project) => (
           <li>
             <ProjectPreview {...project} />
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section id="education" class="education">
+      <h2>Education & Certifications</h2>
+      <ul class="credential-list">
+        {credentials.map((credential) => (
+          <li>
+            <CredentialPreview {...credential} />
           </li>
         ))}
       </ul>
@@ -109,6 +123,20 @@ import { projects } from '../data/projects';
   }
 
   .project-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .education {
+    padding: clamp(2rem, 6vw, 4rem) 0;
+    margin-bottom: 2rem;
+  }
+
+  .education h2 {
+    margin-bottom: 1rem;
+  }
+
+  .credential-list {
     list-style: none;
     padding: 0;
   }
