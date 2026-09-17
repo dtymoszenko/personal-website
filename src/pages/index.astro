@@ -1,0 +1,132 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navigation from '../components/Navigation.astro';
+import SocialLinks from '../components/SocialLinks.astro';
+import ProjectPreview from '../components/ProjectPreview.astro';
+import Footer from '../components/Footer.astro';
+import { projects } from '../data/projects';
+---
+
+<BaseLayout
+  title="David Tymoszenko"
+  description="David Tymoszenko — Full Stack Software Engineer. Projects and portfolio."
+>
+  <Navigation />
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1>David Tymoszenko</h1>
+          <p class="hero-description">
+            Full stack software engineer who loves building projects around the
+            things I'm passionate about.
+          </p>
+          <SocialLinks />
+        </div>
+        <div class="hero-avatar">
+          <svg viewBox="0 0 180 180" aria-hidden="true">
+            <circle cx="90" cy="90" r="90" fill="#2563EB" />
+            <text
+              x="90"
+              y="105"
+              text-anchor="middle"
+              font-family="'IBM Plex Sans', system-ui, sans-serif"
+              font-size="64"
+              font-weight="700"
+              fill="white"
+              letter-spacing="-1"
+            >DT</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="projects">
+      <h2>Projects</h2>
+      <ul class="project-list">
+        {projects.map((project) => (
+          <li>
+            <ProjectPreview {...project} />
+          </li>
+        ))}
+      </ul>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  main {
+    max-width: var(--page-max-width);
+    margin: 0 auto;
+    padding: 0 var(--page-padding);
+  }
+
+  .hero {
+    padding: clamp(2rem, 6vw, 4rem) 0;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 2rem;
+  }
+
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .hero-description {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-base);
+    line-height: 1.7;
+    max-width: 30ch;
+  }
+
+  .hero-avatar {
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+  }
+
+  .hero-avatar svg {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
+
+  .projects {
+    padding: clamp(2rem, 6vw, 4rem) 0;
+    margin-bottom: 2rem;
+  }
+
+  .projects h2 {
+    margin-bottom: 1rem;
+  }
+
+  .project-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  @media (min-width: 640px) {
+    .hero-content {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .hero-description {
+      max-width: 50ch;
+    }
+
+    .hero-avatar {
+      width: 180px;
+      height: 180px;
+    }
+  }
+</style>

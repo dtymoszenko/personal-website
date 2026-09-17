@@ -1,0 +1,51 @@
+---
+import EmailIcon from '../assets/icons/email.svg';
+import GithubIcon from '../assets/icons/github.svg';
+import LinkedinIcon from '../assets/icons/linkedin.svg';
+---
+
+<div class="social-links">
+  <a href="mailto:dtymoszenko@gmail.com" aria-label="Email">
+    <EmailIcon />
+  </a>
+  <a
+    href="https://github.com/dtymoszenko"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="GitHub"
+  >
+    <GithubIcon />
+  </a>
+  <a
+    href="https://www.linkedin.com/in/dtymoszenko/"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="LinkedIn"
+  >
+    <LinkedinIcon />
+  </a>
+</div>
+
+<style>
+  .social-links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    color: var(--color-text-muted);
+    transition: color 0.15s ease-out;
+  }
+
+  a:hover {
+    color: var(--color-accent);
+  }
+
+  a :global(svg) {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+</style>

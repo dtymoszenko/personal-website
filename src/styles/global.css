@@ -1,0 +1,109 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Code', monospace;
+
+  --color-bg: #fafafa;
+  --color-surface: #eaeaea;
+  --color-text: #171717;
+  --color-text-muted: #525252;
+  --color-accent: #2563EB;
+  --color-accent-hover: #1D4ED8;
+  --color-border: #e5e5e5;
+  --color-selection: #2563EB;
+  --color-tag-bg: #EFF6FF;
+  --color-tag-text: #1E40AF;
+
+  --page-max-width: 48rem;
+  --page-padding: clamp(1rem, 3.2vw, 1.5rem);
+
+  --font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --font-size-sm: clamp(0.875rem, 0.825rem + 0.25vw, 1rem);
+  --font-size-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --font-size-md: clamp(1.1875rem, 1.1rem + 0.4375vw, 1.4375rem);
+  --font-size-lg: clamp(1.375rem, 1.25rem + 0.625vw, 1.75rem);
+  --font-size-xl: clamp(1.625rem, 1.4rem + 1.125vw, 2.25rem);
+  --font-size-2xl: clamp(2rem, 1.7rem + 1.5vw, 3rem);
+}
+
+[data-theme="dark"] {
+  --color-bg: #0f0f0f;
+  --color-surface: #1f1f1f;
+  --color-text: #e5e5e5;
+  --color-text-muted: #a3a3a3;
+  --color-accent: #60A5FA;
+  --color-accent-hover: #93BBFD;
+  --color-border: #2a2a2a;
+  --color-selection: #2563EB;
+  --color-tag-bg: #1E3A5F;
+  --color-tag-text: #93C5FD;
+}
+
+::selection {
+  background: var(--color-selection);
+  color: #fff;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background 0.3s, color 0.3s;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color 0.15s ease-out;
+}
+
+a:hover {
+  color: var(--color-accent-hover);
+}
+
+h1, h2, h3 {
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+}
+
+h2 {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+}
+
+h3 {
+  font-size: var(--font-size-md);
+  font-weight: 600;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0s !important;
+    transition-duration: 0s !important;
+  }
+}

@@ -1,0 +1,97 @@
+---
+import Sun from '../assets/icons/sun.svg';
+import Moon from '../assets/icons/moon.svg';
+---
+
+<button class="theme-toggle" aria-label="Toggle theme">
+  <span class="icon icon-sun"><Sun /></span>
+  <span class="icon icon-moon"><Moon /></span>
+</button>
+
+<style>
+  .theme-toggle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    background: none;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    transition: color 0.15s ease-out, border-color 0.15s ease-out;
+  }
+
+  .theme-toggle:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .icon {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease-out;
+  }
+
+  .icon :global(svg) {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  .icon-sun {
+    opacity: 0;
+  }
+
+  .icon-moon {
+    opacity: 1;
+  }
+
+  :global([data-theme='dark']) .icon-sun {
+    opacity: 1;
+  }
+
+  :global([data-theme='dark']) .icon-moon {
+    opacity: 0;
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector('.theme-toggle');
+
+  toggle?.addEventListener('click', () => {
+    const isDark =
+      document.documentElement.getAttribute('data-theme') === 'dark';
+    const next = isDark ? 'light' : 'dark';
+
+    if (typeof document.startViewTransition === 'function') {
+      document.startViewTransition(() => {
+        document.documentElement.setAttribute('data-theme', next);
+      });
+    } else {
+      document.documentElement.setAttribute('data-theme', next);
+    }
+
+    localStorage.setItem('theme', next);
+  });
+
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'theme' && e.newValue) {
+      document.documentElement.setAttribute('data-theme', e.newValue);
+    }
+  });
+
+  window
+    .matchMedia('(prefers-color-scheme: dark)')
+    .addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        document.documentElement.setAttribute(
+          'data-theme',
+          e.matches ? 'dark' : 'light'
+        );
+      }
+    });
+</script>

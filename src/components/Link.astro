@@ -1,0 +1,57 @@
+---
+import ExternalLinkIcon from '../assets/icons/external-link.svg';
+
+interface Props {
+  href: string;
+  class?: string;
+  [key: string]: any;
+}
+
+const { href, class: className, ...rest } = Astro.props;
+const isExternal =
+  href.startsWith('http') && !href.includes('dtymoszenko.com');
+---
+
+<a
+  href={href}
+  class:list={['link', className]}
+  {...isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {}}
+  {...rest}
+>
+  <slot />
+  {isExternal && (
+    <span class="external-icon">
+      <ExternalLinkIcon />
+    </span>
+  )}
+</a>
+
+<style>
+  .link {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.25em;
+    text-decoration-color: var(--color-accent);
+    transition: color 0.15s ease-out;
+  }
+
+  .link:hover {
+    color: var(--color-accent-hover);
+  }
+
+  .link:active {
+    transform: scale(0.98);
+  }
+
+  .external-icon {
+    display: inline-flex;
+    margin-left: 0.15em;
+    vertical-align: baseline;
+  }
+
+  .external-icon :global(svg) {
+    width: 0.75em;
+    height: 0.75em;
+  }
+</style>

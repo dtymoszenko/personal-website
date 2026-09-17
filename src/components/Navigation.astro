@@ -1,0 +1,77 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+---
+
+<header>
+  <nav aria-label="Main">
+    <a href="/" class="nav-logo" aria-label="Home">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <rect width="48" height="48" rx="8" fill="#2563EB" />
+        <text
+          x="24"
+          y="33"
+          text-anchor="middle"
+          font-family="system-ui, -apple-system, sans-serif"
+          font-size="24"
+          font-weight="700"
+          fill="white"
+          letter-spacing="-0.5"
+        >DT</text>
+      </svg>
+    </a>
+    <div class="nav-right">
+      <a href="#projects" class="nav-link">Projects</a>
+      <ThemeToggle />
+    </div>
+  </nav>
+</header>
+
+<style>
+  header {
+    margin-bottom: 1.5rem;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: var(--page-max-width);
+    margin: 0 auto;
+    padding: 1rem var(--page-padding);
+    min-height: 3rem;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .nav-logo svg {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .nav-link {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    transition: color 0.15s ease-out;
+  }
+
+  .nav-link:hover {
+    color: var(--color-accent);
+  }
+
+  .nav-link:active {
+    transform: scale(0.96);
+  }
+</style>

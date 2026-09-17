@@ -1,0 +1,86 @@
+---
+import Link from './Link.astro';
+
+interface Props {
+  name: string;
+  description: string;
+  type: string;
+  stack: string[];
+  sourceUrl?: string;
+  liveUrl?: string;
+}
+
+const { name, description, type, stack, sourceUrl, liveUrl } = Astro.props;
+const primaryUrl = liveUrl || sourceUrl || '#';
+---
+
+<article class="project">
+  <h3>
+    <Link href={primaryUrl}>{name}</Link>
+  </h3>
+  <p>{description}</p>
+  <footer>
+    <span class="project-type">{type}</span>
+    <span class="separator">/</span>
+    <span class="project-stack">{stack.join(', ')}</span>
+    {sourceUrl && sourceUrl !== '#' && (
+      <Link href={sourceUrl} class="project-link">Source</Link>
+    )}
+    {liveUrl && liveUrl !== '#' && (
+      <Link href={liveUrl} class="project-link">Demo</Link>
+    )}
+  </footer>
+</article>
+
+<style>
+  .project {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.5rem 0;
+  }
+
+  .project:not(:first-child) {
+    border-top: 1px solid var(--color-border);
+  }
+
+  h3 {
+    font-size: var(--font-size-md);
+    font-weight: 600;
+  }
+
+  p {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    line-height: 1.7;
+    max-width: 65ch;
+  }
+
+  footer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: var(--font-size-xs);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .project-type {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .separator {
+    color: var(--color-text-muted);
+  }
+
+  .project-stack {
+    color: var(--color-text-muted);
+  }
+
+  .project-link {
+    margin-left: 0.5rem;
+  }
+</style>
