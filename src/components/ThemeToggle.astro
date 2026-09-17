@@ -14,19 +14,16 @@ import Moon from '../assets/icons/moon.svg';
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2.25rem;
-    height: 2.25rem;
+    padding: 0.5rem;
     background: none;
-    border: 1px solid var(--color-border);
-    border-radius: 0.5rem;
+    border: none;
     cursor: pointer;
-    color: var(--color-text-muted);
-    transition: color 0.15s ease-out, border-color 0.15s ease-out;
+    color: var(--color-text);
+    transition: color 0.15s ease-out;
   }
 
   .theme-toggle:hover {
     color: var(--color-accent);
-    border-color: var(--color-accent);
   }
 
   .icon {
@@ -38,8 +35,8 @@ import Moon from '../assets/icons/moon.svg';
   }
 
   .icon :global(svg) {
-    width: 1.125rem;
-    height: 1.125rem;
+    width: 1.35rem;
+    height: 1.35rem;
   }
 
   .icon-sun {
