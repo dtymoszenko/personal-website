@@ -1,39 +1,23 @@
 ---
-import { Image } from 'astro:assets';
-import type { ImageMetadata } from 'astro';
 import Link from './Link.astro';
 
 interface Props {
+  slug: string;
   name: string;
   description: string;
   type: string;
   stack: string[];
   sourceUrl?: string;
   liveUrl?: string;
-  thumbnail?: ImageMetadata;
 }
 
-const { name, description, type, stack, sourceUrl, liveUrl, thumbnail } = Astro.props;
-const primaryUrl = liveUrl || sourceUrl || '#';
+const { slug, name, description, type, stack, sourceUrl, liveUrl } = Astro.props;
 ---
 
 <article class="project">
-  {thumbnail && (
-    <div class="project-frame">
-      <Image
-        src={thumbnail}
-        alt={`${name} screenshot`}
-        width={400}
-        height={210}
-        loading="lazy"
-        decoding="async"
-        class="project-screenshot"
-      />
-    </div>
-  )}
   <div class="project-content">
     <h3>
-      <Link href={primaryUrl}>{name}</Link>
+      <a href={`/projects/${slug}`} class="project-title-link">{name}</a>
     </h3>
     <p>{description}</p>
     <footer>
@@ -62,33 +46,6 @@ const primaryUrl = liveUrl || sourceUrl || '#';
   .project:not(:first-child) {
     border-top: 1px solid var(--color-border);
   }
-
-  .project-frame {
-    flex-shrink: 0;
-    width: 200px;
-    height: 200px;
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid var(--color-border);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  }
-
-  .project-screenshot {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover;
-    border-radius: 16px;
-    display: block !important;
-  }
-
-  [data-theme="dark"] .project-screenshot {
-    box-shadow: none;
-  }
-
-  [data-theme="dark"] .project-frame {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  }
-
 
   .project-content {
     display: flex;
@@ -133,6 +90,25 @@ const primaryUrl = liveUrl || sourceUrl || '#';
     color: var(--color-text-muted);
   }
 
+  .project-title-link {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.25em;
+    text-decoration-color: var(--color-accent);
+    transition: color 0.15s ease-out, text-decoration-color 0.15s ease-out;
+  }
+
+  .project-title-link:hover {
+    color: var(--color-accent-hover);
+    text-decoration-color: var(--color-accent-hover);
+  }
+
+  .project-title-link:active {
+    display: inline-block;
+    transform: scale(0.98);
+  }
+
   .project-link {
     margin-left: 0.5rem;
   }
@@ -142,13 +118,6 @@ const primaryUrl = liveUrl || sourceUrl || '#';
       flex-direction: column !important;
       align-items: flex-start;
       gap: 1.25rem;
-    }
-
-    .project-frame {
-      width: 100%;
-      max-width: 320px;
-      height: auto;
-      aspect-ratio: 1;
     }
   }
 </style>

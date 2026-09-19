@@ -58,34 +58,38 @@ import Moon from '../assets/icons/moon.svg';
 </style>
 
 <script>
-  const toggle = document.querySelector<HTMLButtonElement>('.theme-toggle');
+  function initThemeToggle() {
+    const toggle = document.querySelector<HTMLButtonElement>('.theme-toggle');
 
-  function updateAriaLabel() {
-    if (!toggle) return;
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    toggle.setAttribute(
-      'aria-label',
-      isDark ? 'Switch to light theme' : 'Switch to dark theme'
-    );
-  }
-
-  updateAriaLabel();
-
-  toggle?.addEventListener('click', () => {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    const next = isDark ? 'light' : 'dark';
-
-    (window as any).__themeTransition(() => {
-      (window as any).__setTheme(next);
-    });
+    function updateAriaLabel() {
+      if (!toggle) return;
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      toggle.setAttribute(
+        'aria-label',
+        isDark ? 'Switch to light theme' : 'Switch to dark theme'
+      );
+    }
 
     updateAriaLabel();
-  });
+
+    toggle?.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const next = isDark ? 'light' : 'dark';
+
+      (window as any).__themeTransition(() => {
+        (window as any).__setTheme(next);
+      });
+
+      updateAriaLabel();
+    });
+  }
+
+  initThemeToggle();
+  document.addEventListener('astro:after-swap', initThemeToggle);
 
   window.addEventListener('storage', (e) => {
     if (e.key === 'theme' && e.newValue) {
       document.documentElement.setAttribute('data-theme', e.newValue);
-      updateAriaLabel();
     }
   });
 
@@ -97,7 +101,6 @@ import Moon from '../assets/icons/moon.svg';
           'data-theme',
           e.matches ? 'dark' : 'light'
         );
-        updateAriaLabel();
       }
     });
 </script>

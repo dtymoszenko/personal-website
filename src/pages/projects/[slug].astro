@@ -1,0 +1,215 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navigation from '../../components/Navigation.astro';
+import Footer from '../../components/Footer.astro';
+import Link from '../../components/Link.astro';
+import { projects } from '../../data/projects';
+
+export const getStaticPaths = (() => {
+  return projects.map((project, index) => ({
+    params: { slug: project.slug },
+    props: {
+      project,
+      prevProject: projects[index - 1] ?? null,
+      nextProject: projects[index + 1] ?? null,
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+const { project, prevProject, nextProject } = Astro.props;
+---
+
+<BaseLayout
+  title={`${project.name} — David Tymoszenko`}
+  description={project.description}
+>
+  <Navigation />
+
+  <main>
+    <div class="back-to-index">
+      <a href="/#projects">
+        <span class="arrow">&larr;</span> Projects
+      </a>
+    </div>
+
+    <article class="project-detail">
+      <header>
+        <h1>{project.name}</h1>
+        <div class="meta">
+          <span class="project-type">{project.type}</span>
+          <span class="separator">/</span>
+          <span class="project-stack">{project.stack.join(', ')}</span>
+        </div>
+      </header>
+
+      <div class="project-body">
+        <p class="placeholder">Detailed write-up coming soon.</p>
+      </div>
+
+      {(project.sourceUrl || project.liveUrl) && (
+        <div class="project-links">
+          {project.sourceUrl && project.sourceUrl !== '#' && (
+            <Link href={project.sourceUrl}>Source Code</Link>
+          )}
+          {project.liveUrl && project.liveUrl !== '#' && (
+            <Link href={project.liveUrl}>Live Demo</Link>
+          )}
+        </div>
+      )}
+    </article>
+
+    <nav class="pager" aria-label="Project navigation">
+      <div class="pager-prev">
+        {prevProject && (
+          <a href={`/projects/${prevProject.slug}`} class="pager-link">
+            <span class="arrow">&larr;</span> {prevProject.name}
+          </a>
+        )}
+      </div>
+      <div class="pager-next">
+        {nextProject && (
+          <a href={`/projects/${nextProject.slug}`} class="pager-link">
+            {nextProject.name} <span class="arrow">&rarr;</span>
+          </a>
+        )}
+      </div>
+    </nav>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  main {
+    max-width: var(--page-max-width);
+    margin: 0 auto;
+    padding: 0 var(--page-padding);
+  }
+
+  .back-to-index {
+    margin-bottom: 2rem;
+  }
+
+  .back-to-index a {
+    display: inline-block;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    transition: color 0.15s ease-out;
+  }
+
+  .back-to-index a:hover {
+    color: var(--color-accent);
+  }
+
+  .back-to-index a:active {
+    transform: scale(0.96);
+  }
+
+  .back-to-index .arrow {
+    display: inline-block;
+    transition: transform 250ms ease-out;
+  }
+
+  .back-to-index a:hover .arrow {
+    transform: translateX(-0.25em);
+  }
+
+  .project-detail {
+    margin-bottom: 3rem;
+  }
+
+  header {
+    margin-bottom: 2rem;
+  }
+
+  header h1 {
+    margin-bottom: 0.75rem;
+  }
+
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: var(--font-size-sm);
+  }
+
+  .project-type {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .separator {
+    color: var(--color-text-muted);
+  }
+
+  .project-stack {
+    color: var(--color-text-muted);
+  }
+
+  .project-body {
+    margin-bottom: 2rem;
+  }
+
+  .placeholder {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-base);
+    line-height: 1.7;
+    font-style: italic;
+  }
+
+  .project-links {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .pager {
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .pager-prev {
+    text-align: left;
+  }
+
+  .pager-next {
+    text-align: right;
+    margin-left: auto;
+  }
+
+  .pager-link {
+    display: inline-block;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    transition: color 0.15s ease-out;
+  }
+
+  .pager-link:hover {
+    color: var(--color-accent);
+  }
+
+  .pager-link:active {
+    transform: scale(0.96);
+  }
+
+  .pager-link .arrow {
+    display: inline-block;
+    transition: transform 250ms ease-out;
+  }
+
+  .pager-prev .pager-link:hover .arrow {
+    transform: translateX(-0.25em);
+  }
+
+  .pager-next .pager-link:hover .arrow {
+    transform: translateX(0.25em);
+  }
+</style>
