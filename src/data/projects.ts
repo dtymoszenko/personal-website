@@ -1,6 +1,6 @@
 import type { ImageMetadata } from 'astro';
 import betterbooksThumb from '../assets/projects/betterbooks.svg';
-import easymoneyThumb from '../assets/projects/easymoney.svg';
+import easymoneyThumb from '../assets/projects/easymoney.png';
 import contentCreationToolThumb from '../assets/projects/content-creation-tool.svg';
 
 export interface Project {
