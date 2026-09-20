@@ -17,7 +17,7 @@ export interface Project {
 export const projects: Project[] = [
   {
     slug: 'betterbooks',
-    name: 'BetterBooks',
+    name: 'Grove',
     description:
       'A private book tracking website to read with friends and loved ones!',
     type: 'Full Stack',
