@@ -77,3 +77,15 @@ const currentPath = Astro.url.pathname;
     transform: scale(0.96);
   }
 </style>
+
+<script>
+  function updateActiveNav() {
+    const path = window.location.pathname.replace(/\/$/, '') || '/';
+    document.querySelectorAll('.nav-link').forEach(link => {
+      const href = link.getAttribute('href');
+      link.classList.toggle('active', href === path);
+    });
+  }
+
+  document.addEventListener('astro:page-load', updateActiveNav);
+</script>
