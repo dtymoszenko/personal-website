@@ -1,5 +1,6 @@
 ---
 import type { GetStaticPaths } from 'astro';
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Navigation from '../../components/Navigation.astro';
 import Footer from '../../components/Footer.astro';
@@ -42,6 +43,18 @@ const { project, prevProject, nextProject } = Astro.props;
           <span class="project-stack">{project.stack.join(', ')}</span>
         </div>
       </header>
+
+      {project.thumbnail && (
+        <div class="project-image">
+          <Image
+            src={project.thumbnail}
+            alt={`${project.name} screenshot`}
+            width={800}
+            height={420}
+            loading="eager"
+          />
+        </div>
+      )}
 
       <div class="project-body">
         <p class="placeholder">Detailed write-up coming soon.</p>
@@ -148,6 +161,24 @@ const { project, prevProject, nextProject } = Astro.props;
 
   .project-stack {
     color: var(--color-text-muted);
+  }
+
+  .project-image {
+    margin-bottom: 2rem;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  .project-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  [data-theme="dark"] .project-image {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   }
 
   .project-body {
