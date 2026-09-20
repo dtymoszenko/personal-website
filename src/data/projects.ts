@@ -1,8 +1,7 @@
 import type { ImageMetadata } from 'astro';
 import betterbooksThumb from '../assets/projects/betterbooks.svg';
 import easymoneyThumb from '../assets/projects/easymoney.svg';
-import chess960Thumb from '../assets/projects/chess960.svg';
-import sportsprojectThumb from '../assets/projects/sportsproject.svg';
+import contentCreationToolThumb from '../assets/projects/content-creation-tool.svg';
 
 export interface Project {
   slug: string;
@@ -38,24 +37,14 @@ export const projects: Project[] = [
     thumbnail: easymoneyThumb,
   },
   {
-    slug: 'chess960',
-    name: 'Chess960',
+    slug: 'content-creation-tool',
+    name: 'Content Creation Tool',
     description:
-      'A chess website focused on Chess 960 (Fischer Random) where you can learn info and news about the variant and play others!',
+      'A tool for creating, editing, and organizing content across multiple formats and platforms.',
     type: 'Full Stack',
-    stack: ['Go', 'Docker'],
+    stack: ['Python', 'React'],
     sourceUrl: '#',
     liveUrl: '#',
-    thumbnail: chess960Thumb,
-  },
-  {
-    slug: 'sportsproject',
-    name: 'SportsProject',
-    description:
-      'A sports data platform for tracking stats and game results in real time.',
-    type: 'Web App',
-    stack: ['TypeScript', 'Node.js'],
-    sourceUrl: '#',
-    thumbnail: sportsprojectThumb,
+    thumbnail: contentCreationToolThumb,
   },
 ];
