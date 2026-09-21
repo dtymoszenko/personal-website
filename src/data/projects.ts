@@ -1,7 +1,7 @@
 import type { ImageMetadata } from 'astro';
-import betterbooksThumb from '../assets/projects/betterbooks.svg';
+import betterbooksThumb from '../assets/projects/betterbooks.png';
 import easymoneyThumb from '../assets/projects/easymoney.png';
-import contentCreationToolThumb from '../assets/projects/content-creation-tool.svg';
+import contentCreationToolThumb from '../assets/projects/content-creation-tool.png';
 
 export interface Project {
   slug: string;
