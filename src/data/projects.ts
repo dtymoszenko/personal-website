@@ -1,6 +1,6 @@
 import type { ImageMetadata } from 'astro';
 import betterbooksThumb from '../assets/projects/betterbooks.png';
-import easymoneyThumb from '../assets/projects/easymoney.png';
+import flybudgetThumb from '../assets/projects/flybudget.png';
 import contentCreationToolThumb from '../assets/projects/content-creation-tool.png';
 
 export interface Project {
@@ -27,14 +27,14 @@ export const projects: Project[] = [
     thumbnail: betterbooksThumb,
   },
   {
-    slug: 'easymoney',
-    name: 'EasyMoney',
+    slug: 'flybudget',
+    name: 'FlyBudget',
     description:
       'A financial tracking application for managing personal budgets and expenses.',
     type: 'Web App',
     stack: ['JavaScript', 'React'],
     sourceUrl: '#',
-    thumbnail: easymoneyThumb,
+    thumbnail: flybudgetThumb,
   },
   {
     slug: 'content-creation-tool',
