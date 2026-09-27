@@ -23,8 +23,8 @@ const { slug, name, description, type, stack, sourceUrl, liveUrl, thumbnail } = 
       <Image
         src={thumbnail}
         alt={`${name} screenshot`}
-        width={400}
-        height={400}
+        widths={[150, 260, 300, 400]}
+        sizes="(max-width: 639px) 260px, 150px"
         loading="lazy"
         decoding="async"
         class="project-screenshot"
