@@ -16,6 +16,16 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    slug: 'flybudget',
+    name: 'FlyBudget',
+    description:
+      'A financial tracking application for managing personal budgets and expenses.',
+    type: 'Web App',
+    stack: ['JavaScript', 'React'],
+    sourceUrl: '#',
+    thumbnail: flybudgetThumb,
+  },
+  {
     slug: 'betterbooks',
     name: 'Grove',
     description:
@@ -25,16 +35,6 @@ export const projects: Project[] = [
     sourceUrl: '#',
     liveUrl: '#',
     thumbnail: betterbooksThumb,
-  },
-  {
-    slug: 'flybudget',
-    name: 'FlyBudget',
-    description:
-      'A financial tracking application for managing personal budgets and expenses.',
-    type: 'Web App',
-    stack: ['JavaScript', 'React'],
-    sourceUrl: '#',
-    thumbnail: flybudgetThumb,
   },
   {
     slug: 'content-creation-tool',
