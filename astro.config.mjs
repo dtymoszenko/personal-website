@@ -6,6 +6,9 @@ export default defineConfig({
     prefetchAll: true,
     defaultStrategy: 'viewport',
   },
+  image: {
+    domains: ['i.gr-assets.com'],
+  },
   build: {
     inlineStylesheets: 'always',
   },

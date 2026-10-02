@@ -2,6 +2,35 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
+import { Image } from 'astro:assets';
+import ChessPawnIcon from '../assets/icons/chess-pawn.svg';
+import inceptionPoster from '../assets/posters/inception.jpg';
+import gameOfThronesPoster from '../assets/posters/game-of-thrones.jpg';
+import { getCurrentlyReading } from '../lib/goodreads';
+
+const currentBook = await getCurrentlyReading();
+
+// TODO: Personalize this copy with more detail.
+const sections = [
+  {
+    title: 'Chess',
+    body: "I love playing chess, even though I'm not the best at it. Lately I've been getting into Chess960 (Fischer Random), where the shuffled starting position keeps every game fresh.",
+    chessRating: true,
+  },
+  {
+    title: 'Reading',
+    body: "I love reading and sharing books with friends and loved ones, which is what inspired me to build Grove!",
+    currentBook: true,
+  },
+  {
+    title: 'Movies & TV',
+    body: "When I need some time to relax, I love putting on a good movie or show. My favorite movie is Inception, and my favorite show is Game of Thrones. I highly recommend both 😊",
+    favorites: [
+      { title: 'Inception', url: 'https://www.imdb.com/title/tt1375666/', poster: inceptionPoster },
+      { title: 'Game of Thrones', url: 'https://www.imdb.com/title/tt0944947/', poster: gameOfThronesPoster },
+    ],
+  },
+];
 ---
 
 <BaseLayout
@@ -11,15 +40,116 @@ import Footer from '../components/Footer.astro';
   <Navigation />
 
   <main>
-    <div class="coming-soon">
-      <h1>Coming Soon</h1>
-      <p>This page is under construction. Check back later!</p>
-      <a href="/" class="back-link">&larr; Back to Home</a>
-    </div>
+    <h1>About Me</h1>
+    <p class="intro">A little bit about me outside of work.</p>
+
+    <ul role="list">
+      {sections.map((section) => (
+        <li>
+          <article>
+            <div class="content">
+              <h2>{section.title}</h2>
+              <p>
+                {section.body}
+                {section.currentBook && currentBook && (
+                  <> Right now I'm working through <cite>{currentBook.title}</cite> by {currentBook.author}.</>
+                )}
+              </p>
+            </div>
+            {section.chessRating && (
+              <a
+                href="https://www.chess.com/member/dtymoszenko"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="side chess-rating"
+                aria-label="Chess.com rapid rating"
+              >
+                <ChessPawnIcon aria-hidden="true" />
+                <span id="chess-rating">—</span>
+                <span class="side-label">Rapid</span>
+              </a>
+            )}
+            {section.currentBook && currentBook && (
+              <a
+                href={currentBook.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="side current-book"
+                title={`${currentBook.title} by ${currentBook.author}`}
+                aria-label={`Currently reading: ${currentBook.title} by ${currentBook.author}`}
+              >
+                <Image
+                  src={currentBook.cover}
+                  alt=""
+                  width={64}
+                  height={96}
+                  densities={[1, 2]}
+                  fit="cover"
+                  loading="lazy"
+                  decoding="async"
+                  class="cover"
+                />
+                <span class="side-label">Reading</span>
+              </a>
+            )}
+            {section.favorites && (
+              <div class="side favorites">
+                <div class="posters">
+                  {section.favorites.map((favorite) => (
+                    <a
+                      href={favorite.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="poster-link"
+                      title={favorite.title}
+                    >
+                      <Image
+                        src={favorite.poster}
+                        alt={`${favorite.title} poster`}
+                        width={64}
+                        height={96}
+                        densities={[1, 2]}
+                        fit="cover"
+                        loading="lazy"
+                        decoding="async"
+                        class="cover"
+                      />
+                    </a>
+                  ))}
+                </div>
+                <span class="side-label">Favorites</span>
+              </div>
+            )}
+          </article>
+        </li>
+      ))}
+    </ul>
   </main>
 
   <Footer />
 </BaseLayout>
+
+<script>
+  // Fetched once per visit; re-applied on every client-side navigation back here.
+  let ratingRequest: Promise<number | undefined> | undefined;
+
+  const fetchRating = async () => {
+    try {
+      const res = await fetch('https://api.chess.com/pub/player/dtymoszenko/stats');
+      if (!res.ok) return;
+      const data = await res.json();
+      return data.chess_rapid?.last?.rating;
+    } catch {}
+  };
+
+  document.addEventListener('astro:page-load', async () => {
+    if (!document.getElementById('chess-rating')) return;
+    ratingRequest ??= fetchRating();
+    const rating = await ratingRequest;
+    const el = document.getElementById('chess-rating');
+    if (rating && el) el.textContent = String(rating);
+  });
+</script>
 
 <style>
   main {
@@ -28,35 +158,149 @@ import Footer from '../components/Footer.astro';
     padding: 2rem var(--page-padding);
   }
 
-  .coming-soon {
+  .intro {
+    max-width: 65ch;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+    text-wrap: balance;
+    margin: 0.5rem 0 1.5rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li + li {
+    border-top: 1px solid var(--color-border);
+  }
+
+  article {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
+  article h2 {
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.25em;
+    text-decoration-color: var(--color-accent);
+  }
+
+  article p {
+    max-width: 65ch;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  article cite {
+    font-style: italic;
+    color: var(--color-text);
+  }
+
+  /* Shared fixed width keeps every row's side item on the same center line;
+     it's sized to fit two covers side by side. */
+  .side {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    text-align: center;
-    min-height: 50vh;
-    gap: 1rem;
+    flex-shrink: 0;
+    width: 8.5rem;
+    font-family: var(--font-mono);
+    transition: color 0.15s ease-out, transform 0.1s ease-out;
   }
 
-  .coming-soon h1 {
-    font-size: var(--font-size-2xl);
-    color: var(--color-accent);
+  a.side:active,
+  .poster-link:active {
+    transform: scale(0.96);
   }
 
-  .coming-soon p {
+  .chess-rating {
+    gap: 0.25rem;
+    color: var(--color-text);
+  }
+
+  .chess-rating :global(svg) {
+    width: 1.5rem;
+    height: 1.5rem;
     color: var(--color-text-muted);
-    font-size: var(--font-size-base);
+    transition: color 0.15s ease-out;
   }
 
-  .back-link {
-    color: var(--color-accent);
-    text-decoration: none;
+  .chess-rating:hover,
+  .chess-rating:hover :global(svg) {
+    color: var(--color-accent-hover);
+  }
+
+  #chess-rating {
     font-size: var(--font-size-sm);
-    font-weight: 500;
-    transition: opacity 0.15s ease-out;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
   }
 
-  .back-link:hover {
-    opacity: 0.8;
+  .current-book,
+  .favorites {
+    gap: 0.5rem;
+  }
+
+  .posters {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .poster-link {
+    display: block;
+    transition: transform 0.1s ease-out;
+  }
+
+  .cover {
+    display: block;
+    width: 4rem;
+    height: 6rem;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid var(--color-border);
+    transition: border-color 0.15s ease-out;
+  }
+
+  .current-book:hover .cover,
+  .poster-link:hover .cover {
+    border-color: var(--color-accent-hover);
+  }
+
+  .current-book:hover .side-label {
+    color: var(--color-accent-hover);
+  }
+
+  .side-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    line-height: 1;
+  }
+
+  @media (max-width: 639px) {
+    article {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .side {
+      width: auto;
+    }
   }
 </style>
