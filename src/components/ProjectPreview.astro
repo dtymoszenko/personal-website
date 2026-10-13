@@ -1,7 +1,6 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
-import Link from './Link.astro';
 
 interface Props {
   slug: string;
@@ -9,12 +8,10 @@ interface Props {
   description: string;
   type: string;
   stack: string[];
-  sourceUrl?: string;
-  liveUrl?: string;
   thumbnail?: ImageMetadata;
 }
 
-const { slug, name, description, type, stack, sourceUrl, liveUrl, thumbnail } = Astro.props;
+const { slug, name, description, type, stack, thumbnail } = Astro.props;
 ---
 
 <article class="project">
@@ -40,12 +37,6 @@ const { slug, name, description, type, stack, sourceUrl, liveUrl, thumbnail } = 
       <span class="project-type">{type}</span>
       <span class="separator">/</span>
       <span class="project-stack">{stack.join(', ')}</span>
-      {sourceUrl && sourceUrl !== '#' && (
-        <Link href={sourceUrl} class="project-link">Source</Link>
-      )}
-      {liveUrl && liveUrl !== '#' && (
-        <Link href={liveUrl} class="project-link">Demo</Link>
-      )}
     </footer>
   </div>
 </article>
@@ -150,10 +141,6 @@ const { slug, name, description, type, stack, sourceUrl, liveUrl, thumbnail } = 
   .project-title-link:active {
     display: inline-block;
     transform: scale(0.98);
-  }
-
-  .project-link {
-    margin-left: 0.5rem;
   }
 
   @media (max-width: 639px) {

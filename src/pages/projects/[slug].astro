@@ -4,7 +4,6 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Navigation from '../../components/Navigation.astro';
 import Footer from '../../components/Footer.astro';
-import Link from '../../components/Link.astro';
 import { projects } from '../../data/projects';
 
 export const getStaticPaths = (() => {
@@ -19,6 +18,9 @@ export const getStaticPaths = (() => {
 }) satisfies GetStaticPaths;
 
 const { project, prevProject, nextProject } = Astro.props;
+const hasSourceUrl = !!project.sourceUrl && project.sourceUrl !== '#';
+const hasLiveUrl = !!project.liveUrl && project.liveUrl !== '#';
+const displayUrl = (url: string) => url.replace(/^https?:\/\//, '').replace(/\/$/, '');
 ---
 
 <BaseLayout
@@ -44,7 +46,28 @@ const { project, prevProject, nextProject } = Astro.props;
         </div>
       </header>
 
-      {project.thumbnail && (
+      {project.heroImage ? (
+        <div class="project-image">
+          <Image
+            src={project.heroImage}
+            alt={`${project.name} screenshot`}
+            widths={[400, 800, 1200]}
+            sizes="(max-width: 800px) 100vw, 800px"
+            loading="eager"
+            class:list={[project.heroImageDark && 'light-only']}
+          />
+          {project.heroImageDark && (
+            <Image
+              src={project.heroImageDark}
+              alt={`${project.name} screenshot`}
+              widths={[400, 800, 1200]}
+              sizes="(max-width: 800px) 100vw, 800px"
+              loading="eager"
+              class="dark-only"
+            />
+          )}
+        </div>
+      ) : project.thumbnail && (
         <div class="project-image">
           <Image
             src={project.thumbnail}
@@ -57,18 +80,68 @@ const { project, prevProject, nextProject } = Astro.props;
       )}
 
       <div class="project-body">
-        <p class="placeholder">Detailed write-up coming soon.</p>
+        {project.overview ? (
+          project.overview.map((paragraph) => <p>{paragraph}</p>)
+        ) : (
+          <p class="placeholder">Detailed write-up coming soon.</p>
+        )}
       </div>
 
-      {(project.sourceUrl || project.liveUrl) && (
-        <div class="project-links">
-          {project.sourceUrl && project.sourceUrl !== '#' && (
-            <Link href={project.sourceUrl}>Source Code</Link>
+      {project.features && (
+        <section class="project-section">
+          <h2>Features</h2>
+          {project.features.map((feature) => (
+            <figure class="feature">
+              <div class="feature-image">
+                <Image
+                  src={feature.image}
+                  alt={`${project.name} ${feature.title.toLowerCase()} screenshot`}
+                  widths={[400, 800, 1200]}
+                  sizes="(max-width: 800px) 100vw, 800px"
+                  loading="lazy"
+                  decoding="async"
+                  class:list={[feature.darkImage && 'light-only']}
+                />
+                {feature.darkImage && (
+                  <Image
+                    src={feature.darkImage}
+                    alt={`${project.name} ${feature.title.toLowerCase()} screenshot`}
+                    widths={[400, 800, 1200]}
+                    sizes="(max-width: 800px) 100vw, 800px"
+                    loading="lazy"
+                    decoding="async"
+                    class="dark-only"
+                  />
+                )}
+              </div>
+              <figcaption>
+                <h3>{feature.title}</h3>
+                <p>{feature.body}</p>
+              </figcaption>
+            </figure>
+          ))}
+        </section>
+      )}
+
+      {project.build && (
+        <section class="project-section project-body">
+          <h2>How I built it</h2>
+          {project.build.map((paragraph) => <p>{paragraph}</p>)}
+        </section>
+      )}
+
+      {(project.websiteUrl || hasLiveUrl || hasSourceUrl) && (
+        <ul class="project-links">
+          {project.websiteUrl && (
+            <li>Website: <a href={project.websiteUrl} target="_blank" rel="noopener noreferrer">{displayUrl(project.websiteUrl)}</a></li>
           )}
-          {project.liveUrl && project.liveUrl !== '#' && (
-            <Link href={project.liveUrl}>Live Demo</Link>
+          {hasLiveUrl && (
+            <li>Demo: <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">{displayUrl(project.liveUrl!)}</a></li>
           )}
-        </div>
+          {hasSourceUrl && (
+            <li>Source code: <a href={project.sourceUrl} target="_blank" rel="noopener noreferrer">{displayUrl(project.sourceUrl!)}</a></li>
+          )}
+        </ul>
       )}
     </article>
 
@@ -177,12 +250,70 @@ const { project, prevProject, nextProject } = Astro.props;
     display: block;
   }
 
-  [data-theme="dark"] .project-image {
+  :global([data-theme="dark"]) .project-image {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   }
 
   .project-body {
     margin-bottom: 2rem;
+  }
+
+  .project-body p {
+    font-size: var(--font-size-base);
+    line-height: 1.75;
+  }
+
+  .project-body p + p {
+    margin-top: 1.25rem;
+  }
+
+  .project-section {
+    margin-top: 3.5rem;
+    margin-bottom: 0;
+  }
+
+  .project-section h2 {
+    margin-bottom: 1.5rem;
+  }
+
+  .feature {
+    margin: 0;
+  }
+
+  .feature + .feature {
+    margin-top: 3rem;
+  }
+
+  .feature-image {
+    margin-bottom: 1.25rem;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  :global([data-theme="dark"]) .feature-image {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .feature-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  :global([data-theme="dark"]) :is(.project-image, .feature-image) .light-only,
+  :global(:root:not([data-theme="dark"])) :is(.project-image, .feature-image) .dark-only {
+    display: none;
+  }
+
+  .feature figcaption h3 {
+    margin-bottom: 0.5rem;
+  }
+
+  .feature figcaption p {
+    color: var(--color-text-muted);
+    line-height: 1.75;
   }
 
   .placeholder {
@@ -193,9 +324,14 @@ const { project, prevProject, nextProject } = Astro.props;
   }
 
   .project-links {
-    display: flex;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
+    margin: 3.5rem 0 2rem;
+    padding: 2rem 0 0 1.25rem;
+    border-top: 1px solid var(--color-border);
+    line-height: 1.75;
+  }
+
+  .project-links li + li {
+    margin-top: 0.25rem;
   }
 
   .pager {
