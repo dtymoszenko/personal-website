@@ -42,7 +42,7 @@ export const projects: Project[] = [
     slug: 'flybudget',
     name: 'FlyBudget',
     description:
-      'A local-first, open-source budgeting app with 100+ GitHub stars and 600+ downloads.',
+      'A local-first, open-source budgeting app with 100+ GitHub stars and 1,000+ downloads.',
     type: 'Desktop App',
     stack: ['TypeScript', 'React', 'Electron', 'SQLite'],
     sourceUrl: 'https://github.com/dtymoszenko/FlyBudget',
@@ -52,7 +52,7 @@ export const projects: Project[] = [
     heroImageDark: flybudgetDashboardDark,
     websiteUrl: 'https://flybudget.org',
     overview: [
-      'FlyBudget is a budgeting app I built that keeps your financial data on your own computer instead of in the cloud. It is free and open source, and it has over 100 stars on GitHub and over 600 downloads (500+ Docker image pulls and 100+ desktop app downloads).',
+      'FlyBudget is a budgeting app I built that keeps your financial data on your own computer instead of in the cloud. It is free and open source, and it has over 100 stars on GitHub and over 1,000 downloads.',
       'You can install it as a desktop app on Windows, Mac or Linux. You can also run it on your own server with Docker and open it in a web browser, including on your phone.',
     ],
     features: [
